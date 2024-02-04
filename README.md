@@ -8,4 +8,6 @@ Clone this repository in a directory and run the following commands in separate 
 ```javascript
 npm run server
 ```
-```npm run start```
+```javascript
+npm run start
+```
