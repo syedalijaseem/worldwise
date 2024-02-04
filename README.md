@@ -4,9 +4,16 @@ Worldwise is a sophisticated travel companion application developed using React 
 
 ## Views
 
+### Home
 ![WorldWise Home](./screenshots/Home.png)
+
+### Login
 ![WorldWise Login](./screenshots/Login.png)
+
+### Add City Note
 ![WorldWise AddNote](./screenshots/AddNote.png)
+
+### Map View
 ![WorldWise City Notes](./screenshots/Cities.png)
 
 ## Getting Started
