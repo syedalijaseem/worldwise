@@ -5,5 +5,7 @@ Worldwise is a sophisticated travel companion application developed using React 
 ## Getting Started
 
 Clone this repository in a directory and run the following commands in separate terminals:
-```npm run server```
+```javascript
+npm run server
+```
 ```npm run start```
