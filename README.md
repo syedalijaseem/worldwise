@@ -1,27 +1,9 @@
-# React + TypeScript + Vite
+# WorldWise
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Worldwise is a sophisticated travel companion application developed using React and TypeScript. This dynamic app leverages the power of the React-Leaflet library to provide an interactive map interface. Users can effortlessly navigate to any location, where the app automatically detects the city and country. Notably, Worldwise allows users to create and store personalized notes about visited cities, complete with date and time stamps. The application is elegantly designed, utilizing the Context API for seamless city note management. Worldwise combines technology and travel, offering users a stylish and intuitive way to capture and relive their global experiences.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Clone this repository in a directory and run the following commands in separate terminals:
+`npm run server`
+`npm run start`
