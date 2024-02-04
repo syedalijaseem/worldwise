@@ -7,7 +7,7 @@ export default function BackButton() {
   return (
     <Button
       type="back"
-      onClick={(e) => {
+      onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         navigate(-1);
       }}

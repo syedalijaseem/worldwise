@@ -1,22 +1,38 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useCities } from "../../contexts/CitiesContext";
 import styles from "./CityItem.module.css";
 
-const formatDate = (date) =>
+interface City {
+  id: number;
+  cityName: string;
+  emoji: string;
+  date: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
+}
+
+interface CityItemProps {
+  city: City;
+}
+
+const formatDate = (date: string) =>
   new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(new Date(date));
 
-const CityItem = ({ city }) => {
+const CityItem: React.FC<CityItemProps> = ({ city }) => {
   const { currentCity, deleteCity } = useCities();
   const { cityName, emoji, date, id, position } = city;
 
-  function handleClick(e) {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     deleteCity(id);
-  }
+  };
 
   return (
     <li>

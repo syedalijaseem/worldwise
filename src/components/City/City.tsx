@@ -1,28 +1,27 @@
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./City.module.css";
 import { useCities } from "../../contexts/CitiesContext";
-import { useEffect } from "react";
 import Spinner from "../Spinner/Spinner";
 import BackButton from "../BackButton/BackButton";
 
-const formatDate = (date) =>
+interface CityProps {}
+
+const formatDate = (date: string | null) =>
   new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "long",
     year: "numeric",
     weekday: "long",
-  }).format(new Date(date));
+  }).format(new Date(date || ""));
 
-function City() {
-  const { id } = useParams();
+const City: React.FC<CityProps> = () => {
+  const { id } = useParams<{ id: string }>();
   const { getCity, currentCity, isLoading } = useCities();
 
-  useEffect(
-    function () {
-      getCity(id);
-    },
-    [id]
-  );
+  useEffect(() => {
+    getCity(Number(id));
+  }, [id, getCity]);
 
   const { cityName, emoji, date, notes } = currentCity;
 
@@ -65,6 +64,6 @@ function City() {
       </div>
     </div>
   );
-}
+};
 
 export default City;

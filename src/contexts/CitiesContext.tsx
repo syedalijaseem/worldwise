@@ -4,21 +4,51 @@ import {
   useContext,
   useReducer,
   useCallback,
+  ReactNode,
 } from "react";
 
-// const BASE_URL = "http://localhost:8000";
-const BASE_URL = "/.netlify/functions";
+interface City {
+  id: number;
+  // Add other properties based on your actual data structure
+}
 
-const CitiesContext = createContext();
+interface CitiesContextProps {
+  cities: City[];
+  isLoading: boolean;
+  currentCity: City;
+  error: string;
+  getCity: (id: number) => Promise<void>;
+  createCity: (newCity: any) => Promise<void>;
+  deleteCity: (id: number) => Promise<void>;
+}
 
-const initialState = {
+const BASE_URL = "http://localhost:8000";
+// const BASE_URL = "/.netlify/functions";
+
+const CitiesContext = createContext<CitiesContextProps | undefined>(undefined);
+
+const initialState: CitiesContextProps = {
   cities: [],
   isLoading: false,
-  currentCity: {},
+  currentCity: {} as City,
   error: "",
+  getCity: async () => {},
+  createCity: async () => {},
+  deleteCity: async () => {},
 };
 
-function reducer(state, action) {
+type Action =
+  | { type: "loading" }
+  | { type: "cities/loaded"; payload: City[] }
+  | { type: "city/loaded"; payload: City }
+  | { type: "city/created"; payload: City }
+  | { type: "city/deleted"; payload: number }
+  | { type: "rejected"; payload: string };
+
+function reducer(
+  state: CitiesContextProps,
+  action: Action
+): CitiesContextProps {
   switch (action.type) {
     case "loading":
       return { ...state, isLoading: true };
@@ -46,7 +76,7 @@ function reducer(state, action) {
         ...state,
         isLoading: false,
         cities: state.cities.filter((city) => city.id !== action.payload),
-        currentCity: {},
+        currentCity: {} as City,
       };
 
     case "rejected":
@@ -61,13 +91,14 @@ function reducer(state, action) {
   }
 }
 
-function CitiesProvider({ children }) {
-  const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+interface CitiesProviderProps {
+  children: ReactNode;
+}
 
-  useEffect(function () {
+function CitiesProvider({ children }: CitiesProviderProps) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
     async function fetchCities() {
       dispatch({ type: "loading" });
 
@@ -86,8 +117,8 @@ function CitiesProvider({ children }) {
   }, []);
 
   const getCity = useCallback(
-    async function getCity(id) {
-      if (Number(id) === currentCity.id) return;
+    async function getCity(id: number) {
+      if (Number(id) === state.currentCity.id) return;
 
       dispatch({ type: "loading" });
 
@@ -102,10 +133,10 @@ function CitiesProvider({ children }) {
         });
       }
     },
-    [currentCity.id]
+    [state.currentCity.id]
   );
 
-  async function createCity(newCity) {
+  async function createCity(newCity: any) {
     dispatch({ type: "loading" });
 
     try {
@@ -127,7 +158,7 @@ function CitiesProvider({ children }) {
     }
   }
 
-  async function deleteCity(id) {
+  async function deleteCity(id: number) {
     dispatch({ type: "loading" });
 
     try {
@@ -147,10 +178,7 @@ function CitiesProvider({ children }) {
   return (
     <CitiesContext.Provider
       value={{
-        cities,
-        isLoading,
-        currentCity,
-        error,
+        ...state,
         getCity,
         createCity,
         deleteCity,
@@ -161,7 +189,7 @@ function CitiesProvider({ children }) {
   );
 }
 
-function useCities() {
+function useCities(): CitiesContextProps {
   const context = useContext(CitiesContext);
   if (context === undefined)
     throw new Error("CitiesContext was used outside the CitiesProvider");
